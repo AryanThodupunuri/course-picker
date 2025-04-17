@@ -27,14 +27,21 @@ This is a web application that helps students at the University of Virginia (UVA
 - Python/Pandas – Used for merging and preprocessing datasets before frontend consumption
 
 # 📂 Folder Structure
-.
+
 ├── public/
+
 │   └── courses.json              # Merged Spring 2025 + GPA dataset
+
 ├── src/
+
 │   ├── CoursePicker.jsx         # Main component for course filtering and selection
+
 │   ├── ScheduleView.jsx         # (Optional) Selected course overview / calendar view
+
 │   └── App.js                   # Main entry point
+
 ├── README.md
+
 └── package.json
 
 # 📄 Dataset Info
@@ -45,14 +52,14 @@ Historical GPA Data – Merged using Subject, Catalog Number, and Instructor
 Final dataset lives in public/courses.json
 
 # 🧪 How to Run Locally
-# 1. Clone the repo
+1. Clone the repo
 git clone https://github.com/your-username/uva-course-optimizer.git
 cd uva-course-optimizer
 
-# 2. Install dependencies
+2. Install dependencies
 npm install
 
-# 3. Start the development server
+3. Start the development server
 npm start
 
 # 💡 Future Improvements
@@ -66,5 +73,7 @@ npm start
 
 # 🙋‍♂️ Author
 Made with 💙 by Aryan Thodupunuri
+
 UVA Class of 2027 – B.A. Computer Science
+
 Feel free to connect on [LinkedIn](https://www.linkedin.com/in/aryan-thodupunuri/) or reach out via email at [aryan20544@gmail.com](mailto:aryan20544@gmail.com).
