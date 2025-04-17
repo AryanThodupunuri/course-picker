@@ -1,70 +1,70 @@
-# Getting Started with Create React App
+# 📚 UVA Course Optimizer
+This is a web application that helps students at the University of Virginia (UVA) build their ideal course schedules. The app pulls course data for Spring 2025 (and historical GPA data) and allows students to filter, search, and optimize schedules based on GPA, class times, and instructor preferences.
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# 🚀 Features
+🔍 Multi-criteria Search
+- Filter courses by subject, professor, and minimum GPA.
 
-## Available Scripts
+📊 Historical GPA Integration
+- GPA data from previous semesters is merged in to help students make informed decisions.
 
-In the project directory, you can run:
+⚙️ Schedule Preferences
+- Toggle options to avoid morning or evening classes, allow breaks, and prioritize GPA vs. professor quality.
 
-### `npm start`
+📅 Schedule Conflict Detection
+- Prevents students from adding overlapping courses.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+🧠 Optimized Schedule Generator
+- Automatically selects the best possible schedule based on user-defined weightings.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+📥 Course Export (Coming Soon)
+- Export your selected schedule to a calendar or PDF.
 
-### `npm test`
+# 🛠️ Built With
+- React.js – UI and interactivity
+- TailwindCSS – Responsive styling
+- PapaParse – CSV parsing (if using CSV input)
+- Python/Pandas – Used for merging and preprocessing datasets before frontend consumption
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+# 📂 Folder Structure
+.
+├── public/
+│   └── courses.json              # Merged Spring 2025 + GPA dataset
+├── src/
+│   ├── CoursePicker.jsx         # Main component for course filtering and selection
+│   ├── ScheduleView.jsx         # (Optional) Selected course overview / calendar view
+│   └── App.js                   # Main entry point
+├── README.md
+└── package.json
 
-### `npm run build`
+# 📄 Dataset Info
+Spring 2025 Course Data – Pulled from SIS or public course listings
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Historical GPA Data – Merged using Subject, Catalog Number, and Instructor
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+Final dataset lives in public/courses.json
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+# 🧪 How to Run Locally
+# 1. Clone the repo
+git clone https://github.com/your-username/uva-course-optimizer.git
+cd uva-course-optimizer
 
-### `npm run eject`
+# 2. Install dependencies
+npm install
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+# 3. Start the development server
+npm start
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+# 💡 Future Improvements
+📆 Calendar view of selected classes
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+🧠 Smarter optimization using genetic algorithms
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+🔄 Real-time data sync from SIS API
 
-## Learn More
+🗳️ Professor ratings from RateMyProfessors or UVA-specific reviews
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+# 🙋‍♂️ Author
+Made with 💙 by Aryan Thodupunuri
+UVA Class of 2027 – B.A. Computer Science
+Feel free to connect on [LinkedIn](https://www.linkedin.com/in/aryan-thodupunuri/) or reach out via email at [aryan20544@gmail.com](mailto:aryan20544@gmail.com).
