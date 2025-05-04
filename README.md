@@ -2,22 +2,22 @@
 This is a web application that helps students at the University of Virginia (UVA) build their ideal course schedules. The app pulls course data for Spring 2025 (and historical GPA data) and allows students to filter, search, and optimize schedules based on GPA, class times, and instructor preferences.
 
 # Features
-Multi-criteria Search
+1. Multi-criteria Search
 - Filter courses by subject, professor, and minimum GPA.
 
-Historical GPA Integration
+2. Historical GPA Integration
 - GPA data from previous semesters is merged in to help students make informed decisions.
 
-Schedule Preferences
+3. Schedule Preferences
 - Toggle options to avoid morning or evening classes, allow breaks, and prioritize GPA vs. professor quality.
 
-Schedule Conflict Detection
+4. Schedule Conflict Detection
 - Prevents students from adding overlapping courses.
 
-Optimized Schedule Generator
+5. Optimized Schedule Generator
 - Automatically selects the best possible schedule based on user-defined weightings.
 
-Course Export (Coming Soon)
+6. Course Export (Coming Soon)
 - Export your selected schedule to a calendar or PDF.
 
 # Built With
@@ -53,7 +53,7 @@ Final dataset lives in public/courses.json
 
 # How to Run Locally
 1. Clone the repo
-git clone https://github.com/your-username/uva-course-optimizer.git
+git clone https://github.com/AryanThodupunuri/course-picker.git
 cd uva-course-optimizer
 
 2. Install dependencies
