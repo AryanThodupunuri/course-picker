@@ -1,30 +1,30 @@
 # UVA Course Optimizer
-This is a web application that helps students at the University of Virginia (UVA) build their ideal course schedules. The app pulls course data for Spring 2025 (and historical GPA data) and allows students to filter, search, and optimize schedules based on GPA, class times, and instructor preferences.
+A web application that helps University of Virginia (UVA) students build their ideal course schedules. The app uses **Spring 2025 course data** and **historical GPA data** to allow students to filter, search, and optimize schedules based on GPA, class times, and instructor preferences.
 
 # Features
-1. Multi-criteria Search
-- Filter courses by subject, professor, and minimum GPA.
+**1. Multi-criteria Search**
+  Filter courses by subject, professor, and minimum GPA.
 
-2. Historical GPA Integration
-- GPA data from previous semesters is merged in to help students make informed decisions.
+**2. Historical GPA Integration**
+  GPA data from previous semesters is merged in to help students make informed decisions.
 
-3. Schedule Preferences
-- Toggle options to avoid morning or evening classes, allow breaks, and prioritize GPA vs. professor quality.
+**3. Schedule Preferences**
+  Toggle options to avoid morning or evening classes, allow breaks, and prioritize GPA vs. professor quality.
 
-4. Schedule Conflict Detection
-- Prevents students from adding overlapping courses.
+**4. Schedule Conflict Detection**
+  Prevents students from adding overlapping courses.
 
-5. Optimized Schedule Generator
-- Automatically selects the best possible schedule based on user-defined weightings.
+**5. Optimized Schedule Generator**
+  Automatically selects the best possible schedule based on user-defined weightings.
 
-6. Course Export (Coming Soon)
-- Export your selected schedule to a calendar or PDF.
+**6. Course Export (Coming Soon)**
+  Export your selected schedule to a calendar or PDF.
 
 # Built With
-- React.js – UI and interactivity
-- TailwindCSS – Responsive styling
-- PapaParse – CSV parsing (if using CSV input)
-- Python/Pandas – Used for merging and preprocessing datasets before frontend consumption
+- **React.js** – UI and interactivity
+- **TailwindCSS** – Responsive styling
+- **PapaParse** – CSV parsing (if using CSV input)
+- **Python/Pandas** – Used for merging and preprocessing datasets before frontend consumption
 
 # Folder Structure
 
@@ -45,30 +45,25 @@ This is a web application that helps students at the University of Virginia (UVA
 └── package.json
 
 # Dataset Info
-Spring 2025 Course Data – Pulled from SIS or public course listings
-
-Historical GPA Data – Merged using Subject, Catalog Number, and Instructor
-
-Final dataset lives in public/courses.json
+- **Spring 2025 Course Data** – Pulled from SIS or public course listings
+- **Historical GPA Data** – Merged using Subject, Catalog Number, and Instructor
+- Final dataset lives in public/courses.json
 
 # How to Run Locally
-1. Clone the repo
+**1. Clone the repo**
 git clone https://github.com/AryanThodupunuri/course-picker.git
 cd uva-course-optimizer
 
-2. Install dependencies
+**2. Install dependencies**
 npm install
 
-3. Start the development server
+**3. Start the development server**
 npm start
 
 # Future Improvements
 - Calendar view of selected classes
-
 - Smarter optimization using genetic algorithms
-
 - Real-time data sync from SIS API
-
 - Professor ratings from RateMyProfessors or UVA-specific reviews
 
 # Author
