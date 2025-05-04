@@ -1,47 +1,52 @@
-import React, { useState } from "react";
-import * as XLSX from "xlsx";
+import React, { useState, useEffect } from "react";
 
 export default function CoursePicker() {
   const [data, setData] = useState([]);
   const [filterSubject, setFilterSubject] = useState("");
   const [filterProfessor, setFilterProfessor] = useState("");
+  const [sortKey, setSortKey] = useState(null);
+  const [sortOrder, setSortOrder] = useState("asc");
 
-  // Function to handle file upload and read Excel data
-  const handleFileUpload = (event) => {
-    const file = event.target.files[0];
-    const reader = new FileReader();
+  useEffect(() => {
+    fetch("/courses.json")
+      .then((response) => response.json())
+      .then((jsonData) => {
+        if (jsonData.Sheet1 && Array.isArray(jsonData.Sheet1)) {
+          setData(jsonData.Sheet1);
+        } else {
+          console.error("JSON format incorrect.");
+        }
+      })
+      .catch((error) => console.error("Error loading course data:", error));
+  }, []);
 
-    reader.onload = (e) => {
-      const binaryStr = e.target.result;
-      const workbook = XLSX.read(binaryStr, { type: "binary" });
-      const sheetName = workbook.SheetNames[0]; // Get the first sheet
-      const sheetData = XLSX.utils.sheet_to_json(workbook.Sheets[sheetName]); // Convert to JSON
-      setData(sheetData); // Store in state
-    };
-
-    reader.readAsBinaryString(file);
+  const handleSort = (key) => {
+    const newOrder = sortKey === key && sortOrder === "asc" ? "desc" : "asc";
+    setSortKey(key);
+    setSortOrder(newOrder);
   };
 
-  // Filter data based on user input
-  const filteredData = data.filter((row) =>
-    (filterSubject ? row.Subject?.toLowerCase().includes(filterSubject.toLowerCase()) : true) &&
-    (filterProfessor ? row["Primary Instructor Name"]?.toLowerCase().includes(filterProfessor.toLowerCase()) : true)
+  const sortedData = [...data].sort((a, b) => {
+    if (!sortKey) return 0;
+    const valA = a[sortKey] || "";
+    const valB = b[sortKey] || "";
+    return sortOrder === "asc" ? valA.localeCompare(valB) : valB.localeCompare(valA);
+  });
+
+  const filteredData = sortedData.filter((row) =>
+    (!filterSubject || row.Subject?.toLowerCase().includes(filterSubject.toLowerCase())) &&
+    (!filterProfessor || row["Primary Instructor Name"]?.toLowerCase().includes(filterProfessor.toLowerCase()))
   );
 
   return (
-    <div className="p-6 max-w-4xl mx-auto">
+    <div className="p-6 max-w-5xl mx-auto">
       <h1 className="text-2xl font-bold mb-4 text-center">UVA Course Picker</h1>
-      
-      {/* File Upload */}
-      <div className="mb-4 text-center">
-        <input type="file" accept=".xlsx" onChange={handleFileUpload} className="border p-2" />
-      </div>
 
       {/* Filters */}
       <div className="mb-4 flex gap-4 justify-center">
         <input
           type="text"
-          placeholder="Filter by Subject (e.g., CS, MATH)"
+          placeholder="Filter by Subject (e.g., CS)"
           value={filterSubject}
           onChange={(e) => setFilterSubject(e.target.value)}
           className="border p-2 w-60"
@@ -55,32 +60,35 @@ export default function CoursePicker() {
         />
       </div>
 
-      {/* Course Table */}
+      {/* Table */}
       <div className="overflow-x-auto">
         <table className="border-collapse border w-full text-sm">
           <thead>
             <tr className="bg-gray-200 text-left">
-              <th className="border p-2">Subject</th>
-              <th className="border p-2">Catalog #</th>
-              <th className="border p-2">Class Title</th>
-              <th className="border p-2">Professor</th>
-              <th className="border p-2">GPA</th>
+              {data.length > 0 &&
+                Object.keys(data[0]).map((key) => (
+                  <th key={key} className="border p-2">
+                    {key}
+                  </th>
+                ))}
             </tr>
           </thead>
           <tbody>
             {filteredData.length > 0 ? (
               filteredData.map((row, index) => (
-                <tr key={index} className="text-center">
-                  <td className="border p-2">{row.Subject}</td>
-                  <td className="border p-2">{row["Catalog Number"]}</td>
-                  <td className="border p-2">{row["Class Title"]}</td>
-                  <td className="border p-2">{row["Primary Instructor Name"]}</td>
-                  <td className="border p-2">{row["Course GPA"]}</td>
+                <tr key={index} className="text-center hover:bg-gray-100">
+                  {Object.values(row).map((value, i) => (
+                    <td key={i} className="border p-2">
+                      {value || "N/A"}
+                    </td>
+                  ))}
                 </tr>
               ))
             ) : (
               <tr>
-                <td colSpan="5" className="text-center p-4">No courses found.</td>
+                <td colSpan={data[0] ? Object.keys(data[0]).length : 1} className="text-center p-4">
+                  No courses found.
+                </td>
               </tr>
             )}
           </tbody>
