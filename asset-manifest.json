@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/course-picker/static/css/main.0126b144.css",
+    "main.js": "/course-picker/static/js/main.406ae5f5.js",
+    "static/js/453.b3d2e698.chunk.js": "/course-picker/static/js/453.b3d2e698.chunk.js",
+    "index.html": "/course-picker/index.html",
+    "main.0126b144.css.map": "/course-picker/static/css/main.0126b144.css.map",
+    "main.406ae5f5.js.map": "/course-picker/static/js/main.406ae5f5.js.map",
+    "453.b3d2e698.chunk.js.map": "/course-picker/static/js/453.b3d2e698.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.0126b144.css",
+    "static/js/main.406ae5f5.js"
+  ]
+}
