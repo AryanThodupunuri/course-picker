@@ -1,9 +1,15 @@
 import React, { useState, useEffect } from "react";
+import "./CoursePicker.css";
 
 export default function CoursePicker() {
   const [data, setData] = useState([]);
   const [filterSubject, setFilterSubject] = useState("");
   const [filterProfessor, setFilterProfessor] = useState("");
+  const [filterType, setFilterType] = useState("");
+  const [filterCredits, setFilterCredits] = useState("");
+  const [filterTime, setFilterTime] = useState("");
+  const [filterDays, setFilterDays] = useState("");
+  const [onlyOpen, setOnlyOpen] = useState(false);
   const [sortKey, setSortKey] = useState(null);
   const [sortOrder, setSortOrder] = useState("asc");
 
@@ -33,42 +39,83 @@ export default function CoursePicker() {
     return sortOrder === "asc" ? valA.localeCompare(valB) : valB.localeCompare(valA);
   });
 
-  const filteredData = sortedData.filter((row) =>
-    (!filterSubject || row.Subject?.toLowerCase().includes(filterSubject.toLowerCase())) &&
-    (!filterProfessor || row["Primary Instructor Name"]?.toLowerCase().includes(filterProfessor.toLowerCase()))
-  );
+  const filteredData = sortedData.filter((row) => {
+    const subjectMatch = !filterSubject || row.Subject?.toLowerCase().includes(filterSubject.toLowerCase());
+    const professorMatch = !filterProfessor || row["Instructor(s)"].toLowerCase().includes(filterProfessor.toLowerCase());
+    const typeMatch = !filterType || row.Type?.toLowerCase().includes(filterType.toLowerCase());
+    const creditsMatch = !filterCredits || row.Units?.replace(/[^\d]/g, '') === filterCredits;
+    const openMatch = !onlyOpen || row.Enrollment?.toLowerCase() === "open";
+    const timeMatch = !filterTime || (row.Days && row.Days.match(/\d{1,2}:\d{2}[ap]m/i)?.[0] < filterTime);
+    const daysMatch = !filterDays || (row.Days && row.Days.toLowerCase().includes(filterDays.toLowerCase()));
+
+    return subjectMatch && professorMatch && typeMatch && creditsMatch && openMatch && timeMatch && daysMatch;
+  });
 
   return (
-    <div className="p-6 max-w-5xl mx-auto">
-      <h1 className="text-2xl font-bold mb-4 text-center">UVA Course Picker</h1>
+    <div className="course-picker-container">
+      <h1 className="course-picker-title">UVA Course Picker</h1>
 
       {/* Filters */}
-      <div className="mb-4 flex gap-4 justify-center">
+      <div className="filter-container">
         <input
           type="text"
           placeholder="Filter by Subject (e.g., CS)"
           value={filterSubject}
           onChange={(e) => setFilterSubject(e.target.value)}
-          className="border p-2 w-60"
         />
         <input
           type="text"
           placeholder="Filter by Professor"
           value={filterProfessor}
           onChange={(e) => setFilterProfessor(e.target.value)}
-          className="border p-2 w-60"
         />
+        <input
+          type="text"
+          placeholder="Filter by Type (e.g., Lecture)"
+          value={filterType}
+          onChange={(e) => setFilterType(e.target.value)}
+        />
+        <input
+          type="number"
+          placeholder="Credits (e.g., 3)"
+          value={filterCredits}
+          onChange={(e) => setFilterCredits(e.target.value)}
+        />
+        <input
+          type="text"
+          placeholder="Before Time (e.g., 2:00pm)"
+          value={filterTime}
+          onChange={(e) => setFilterTime(e.target.value)}
+        />
+        <input
+          type="text"
+          placeholder="Days (e.g., MoWeFr)"
+          value={filterDays}
+          onChange={(e) => setFilterDays(e.target.value)}
+        />
+        <label>
+          <input
+            type="checkbox"
+            checked={onlyOpen}
+            onChange={() => setOnlyOpen(!onlyOpen)}
+          />
+          Open Classes Only
+        </label>
       </div>
 
       {/* Table */}
       <div className="overflow-x-auto">
-        <table className="border-collapse border w-full text-sm">
+        <table className="course-table">
           <thead>
-            <tr className="bg-gray-200 text-left">
+            <tr>
               {data.length > 0 &&
                 Object.keys(data[0]).map((key) => (
-                  <th key={key} className="border p-2">
-                    {key}
+                  <th
+                    key={key}
+                    onClick={() => handleSort(key)}
+                    style={{ cursor: "pointer" }}
+                  >
+                    {key} {sortKey === key ? (sortOrder === "asc" ? "⬆" : "⬇") : ""}
                   </th>
                 ))}
             </tr>
@@ -76,11 +123,9 @@ export default function CoursePicker() {
           <tbody>
             {filteredData.length > 0 ? (
               filteredData.map((row, index) => (
-                <tr key={index} className="text-center hover:bg-gray-100">
+                <tr key={index}>
                   {Object.values(row).map((value, i) => (
-                    <td key={i} className="border p-2">
-                      {value || "N/A"}
-                    </td>
+                    <td key={i}>{value || "N/A"}</td>
                   ))}
                 </tr>
               ))
