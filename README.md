@@ -85,8 +85,3 @@ npm start
 - Smarter optimization using genetic algorithms
 - Real-time data sync from SIS API
 - Professor ratings from RateMyProfessors or UVA-specific reviews
-
-# Author
-Built by **Aryan Thodupunuri** and **Nikhil Kapadia**
-
-UVA Class of 2027 – Computer Science
