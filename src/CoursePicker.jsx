@@ -9,12 +9,14 @@ export default function CoursePicker() {
   const [filterCredits, setFilterCredits] = useState("");
   const [filterTime, setFilterTime] = useState("");
   const [filterDays, setFilterDays] = useState("");
+  const [minGPA, setMinGPA] = useState("");
   const [onlyOpen, setOnlyOpen] = useState(false);
+  const [inPersonOnly, setInPersonOnly] = useState(false);
   const [sortKey, setSortKey] = useState(null);
   const [sortOrder, setSortOrder] = useState("asc");
 
   useEffect(() => {
-    fetch("/courses.json")
+    fetch(process.env.PUBLIC_URL + "/courses.json")
       .then((response) => response.json())
       .then((jsonData) => {
         if (jsonData.Sheet1 && Array.isArray(jsonData.Sheet1)) {
@@ -32,6 +34,17 @@ export default function CoursePicker() {
     setSortOrder(newOrder);
   };
 
+  const parseStartTime = (daysStr) => {
+    const match = daysStr?.match(/(\d+):(\d+)(am|pm)/i);
+    if (!match) return null;
+    let [_, hour, minute, period] = match;
+    hour = parseInt(hour);
+    minute = parseInt(minute);
+    if (period.toLowerCase() === "pm" && hour !== 12) hour += 12;
+    if (period.toLowerCase() === "am" && hour === 12) hour = 0;
+    return hour + minute / 60;
+  };
+
   const sortedData = [...data].sort((a, b) => {
     if (!sortKey) return 0;
     const valA = a[sortKey] || "";
@@ -41,83 +54,46 @@ export default function CoursePicker() {
 
   const filteredData = sortedData.filter((row) => {
     const subjectMatch = !filterSubject || row.Subject?.toLowerCase().includes(filterSubject.toLowerCase());
-    const professorMatch = !filterProfessor || row["Instructor(s)"].toLowerCase().includes(filterProfessor.toLowerCase());
+    const professorMatch = !filterProfessor || row["Primary Instructor Name"]?.toLowerCase().includes(filterProfessor.toLowerCase());
     const typeMatch = !filterType || row.Type?.toLowerCase().includes(filterType.toLowerCase());
-    const creditsMatch = !filterCredits || row.Units?.replace(/[^\d]/g, '') === filterCredits;
-    const openMatch = !onlyOpen || row.Enrollment?.toLowerCase() === "open";
-    const timeMatch = !filterTime || (row.Days && row.Days.match(/\d{1,2}:\d{2}[ap]m/i)?.[0] < filterTime);
-    const daysMatch = !filterDays || (row.Days && row.Days.toLowerCase().includes(filterDays.toLowerCase()));
+    const creditsMatch = !filterCredits || row.Units?.toString() === filterCredits;
+    const gpaMatch = !minGPA || parseFloat(row.GPA || 0) >= parseFloat(minGPA);
+    const openMatch = !onlyOpen || row.Status?.toLowerCase() === "open";
+    const inPersonMatch = !inPersonOnly || row["Instruction Mode"]?.toLowerCase().includes("in person");
+    const timeMatch = !filterTime || parseStartTime(row.Days1 || row.Days) >= parseFloat(filterTime);
+    const daysMatch = !filterDays || row.Days1?.toLowerCase().includes(filterDays.toLowerCase());
 
-    return subjectMatch && professorMatch && typeMatch && creditsMatch && openMatch && timeMatch && daysMatch;
+    return subjectMatch && professorMatch && typeMatch && creditsMatch && gpaMatch && openMatch && inPersonMatch && timeMatch && daysMatch;
   });
 
   return (
     <div className="course-picker-container">
-      <h1 className="course-picker-title">UVA Course Picker</h1>
+      <h1 className="course-picker-title">ScheduVA: UVA Course Picker</h1>
 
-      {/* Filters */}
       <div className="filter-container">
-        <input
-          type="text"
-          placeholder="Filter by Subject (e.g., CS)"
-          value={filterSubject}
-          onChange={(e) => setFilterSubject(e.target.value)}
-        />
-        <input
-          type="text"
-          placeholder="Filter by Professor"
-          value={filterProfessor}
-          onChange={(e) => setFilterProfessor(e.target.value)}
-        />
-        <input
-          type="text"
-          placeholder="Filter by Type (e.g., Lecture)"
-          value={filterType}
-          onChange={(e) => setFilterType(e.target.value)}
-        />
-        <input
-          type="number"
-          placeholder="Credits (e.g., 3)"
-          value={filterCredits}
-          onChange={(e) => setFilterCredits(e.target.value)}
-        />
-        <input
-          type="text"
-          placeholder="Before Time (e.g., 2:00pm)"
-          value={filterTime}
-          onChange={(e) => setFilterTime(e.target.value)}
-        />
-        <input
-          type="text"
-          placeholder="Days (e.g., MoWeFr)"
-          value={filterDays}
-          onChange={(e) => setFilterDays(e.target.value)}
-        />
-        <label>
-          <input
-            type="checkbox"
-            checked={onlyOpen}
-            onChange={() => setOnlyOpen(!onlyOpen)}
-          />
-          Open Classes Only
-        </label>
+        <input type="text" placeholder="Subject (e.g., CS)" value={filterSubject} onChange={(e) => setFilterSubject(e.target.value)} />
+        <input type="text" placeholder="Professor" value={filterProfessor} onChange={(e) => setFilterProfessor(e.target.value)} />
+        <input type="text" placeholder="Type (Lecture, Lab)" value={filterType} onChange={(e) => setFilterType(e.target.value)} />
+        <input type="number" placeholder="Credits" value={filterCredits} onChange={(e) => setFilterCredits(e.target.value)} />
+        <input type="number" step="0.01" placeholder="Min GPA" value={minGPA} onChange={(e) => setMinGPA(e.target.value)} />
+        <input type="number" step="0.1" placeholder="Earliest Start (24h)" value={filterTime} onChange={(e) => setFilterTime(e.target.value)} />
+        <input type="text" placeholder="Days (e.g., MoWeFr)" value={filterDays} onChange={(e) => setFilterDays(e.target.value)} />
+
+        <div className="checkbox-row">
+          <label><input type="checkbox" checked={onlyOpen} onChange={() => setOnlyOpen(!onlyOpen)} /> Open Only</label>
+          <label><input type="checkbox" checked={inPersonOnly} onChange={() => setInPersonOnly(!inPersonOnly)} /> In-Person Only</label>
+        </div>
       </div>
 
-      {/* Table */}
       <div className="overflow-x-auto">
         <table className="course-table">
           <thead>
             <tr>
-              {data.length > 0 &&
-                Object.keys(data[0]).map((key) => (
-                  <th
-                    key={key}
-                    onClick={() => handleSort(key)}
-                    style={{ cursor: "pointer" }}
-                  >
-                    {key} {sortKey === key ? (sortOrder === "asc" ? "⬆" : "⬇") : ""}
-                  </th>
-                ))}
+              {data.length > 0 && Object.keys(data[0]).map((key) => (
+                <th key={key} onClick={() => handleSort(key)} style={{ cursor: "pointer" }}>
+                  {key} {sortKey === key ? (sortOrder === "asc" ? "⬆" : "⬇") : ""}
+                </th>
+              ))}
             </tr>
           </thead>
           <tbody>
