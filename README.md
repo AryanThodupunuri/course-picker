@@ -1,48 +1,59 @@
-# UVA Course Optimizer
-A web application that helps University of Virginia (UVA) students build their ideal course schedules. The app uses **Spring 2025 course data** and **historical GPA data** to allow students to filter, search, and optimize schedules based on GPA, class times, and instructor preferences.
+# UVA CS Course Planner
+This is a React-based web app designed to help University of Virginia (UVA) Computer Science students explore, filter, and plan their courses each semester. The tool offers rich filtering options, conflict detection, and visual cues to help students build a better schedule.
 
-# Features
-**1. Multi-criteria Search**
-  Filter courses by subject, professor, and minimum GPA.
+👉 **Live App:** [course-picker.vercel.app](https://course-picker.vercel.app)
 
-**2. Historical GPA Integration**
-  GPA data from previous semesters is merged in to help students make informed decisions.
 
-**3. Schedule Preferences**
-  Toggle options to avoid morning or evening classes, allow breaks, and prioritize GPA vs. professor quality.
+## Features
+### Filtering Courses
+- **By subject, professor, type, GPA, and credits**
+  - These are handled using React’s (`useState`) for each filter field. As the user types or selects options, the app updates the filtered list in real time by applying conditions to the `filteredData` array.
 
-**4. Schedule Conflict Detection**
-  Prevents students from adding overlapping courses.
+- **By meeting days and time range**
+  - There are checkboxes for each weekday (like Mo/We/Fr) and sliders for setting the time window. I wrote a `parseStartTime()` function that uses regex to extract time info (like “10:00am”) and convert it into a number using 24-hour format. This lets us filter courses based on when they start.
 
-**5. Optimized Schedule Generator**
-  Automatically selects the best possible schedule based on user-defined weightings.
+- **By keyword**
+  The keyword input checks both the course title and description. It’s a case-insensitive match and runs on every keystroke using `.toLowerCase().includes()` inside the filter logic.
 
-**6. Course Export (Coming Soon)**
-  Export your selected schedule to a calendar or PDF.
+---
+
+### GPA-Based Row Coloring
+- Rows are color-coded to reflect average GPA:
+  - 🟩 Green for GPA ≥ 3.7
+  - 🟨 Yellow for 3.0 ≤ GPA < 3.7
+  - 🟥 Red for GPA < 3.0
+- Implemented using a helper function `getGPAClass()` that returns the appropriate CSS class.
+
+---
+
+### Conflict Detection
+- When a course is selected using the “Select” button, the app checks whether the course overlaps in time with any previously selected courses.
+- If it finds a conflict, it shows a warning message at the top. If not, the course gets added to the `selectedCourses` array in state.
+- Logic is handled by `checkConflicts()` which compares parsed start/end times and overlapping days.
+
+---
+
+### Table Sorting
+- Clicking on any table header sorts the column in ascending/descending order.
+- Sorting is handled through `handleSort()` and tracked using `sortKey` and `sortOrder` state.
+
+---
+
+### UI Design
+- The app uses a compact, responsive layout.
+- Styled with UVA brand colors (navy + orange) and a light academic theme.
+- Filter section is collapsible via the “Show/Hide Filters” button.
+- Summary box at the top explains the purpose of the tool.
+
+---
 
 # Built With
-- **React.js** – UI and interactivity
-- **TailwindCSS** – Responsive styling
-- **PapaParse** – CSV parsing (if using CSV input)
+- **React.js** - Functional components and hooks
+- **HTML + CSS** – Custom styling with UVA branding
+- **JavaScript** – For filtering, sorting, and time parsing logic
+- **JSON** - Local data loaded from public/courses.json
 - **Python/Pandas** – Used for merging and preprocessing datasets before frontend consumption
-
-# Folder Structure
-
-├── public/
-
-│   └── courses.json              # Merged Spring 2025 + GPA dataset
-
-├── src/
-
-│   ├── CoursePicker.jsx         # Main component for course filtering and selection
-
-│   ├── ScheduleView.jsx         # (Optional) Selected course overview / calendar view
-
-│   └── App.js                   # Main entry point
-
-├── README.md
-
-└── package.json
+- **Vercel** - For deployment
 
 # Dataset Info
 - **Spring 2025 Course Data** – Pulled from SIS or public course listings
@@ -67,8 +78,6 @@ npm start
 - Professor ratings from RateMyProfessors or UVA-specific reviews
 
 # Author
-Made by Aryan Thodupunuri
+Built by **Aryan Thodupunuri** and **Nikhil Kapadia**
 
-UVA Class of 2027 – B.A. Computer Science
-
-Feel free to connect on [LinkedIn](https://www.linkedin.com/in/aryan-thodupunuri/) or reach out via email at [aryan20544@gmail.com](mailto:aryan20544@gmail.com).
+UVA Class of 2027 – Computer Science
