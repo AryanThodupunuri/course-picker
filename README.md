@@ -1,3 +1,12 @@
+<p align="center">
+  <img src="https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB" />
+  <img src="https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=000" />
+  <img src="https://img.shields.io/badge/JSON-292929?style=for-the-badge&logo=json&logoColor=white" />
+  <img src="https://img.shields.io/badge/CSS-1572B6?style=for-the-badge&logo=css3&logoColor=white" />
+  <img src="https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white" />
+  <img src="https://img.shields.io/badge/Vercel-000000?style=for-the-badge&logo=vercel&logoColor=white" />
+</p>
+
 # UVA CS Course Planner
 This is a React-based web app designed to help University of Virginia (UVA) Computer Science students explore, filter, and plan their courses each semester. The tool offers rich filtering options, conflict detection, and visual cues to help students build a better schedule.
 
@@ -63,7 +72,7 @@ This is a React-based web app designed to help University of Virginia (UVA) Comp
 # How to Run Locally
 **1. Clone the repo**
 git clone https://github.com/AryanThodupunuri/course-picker.git
-cd uva-course-optimizer
+cd course-picker
 
 **2. Install dependencies**
 npm install
