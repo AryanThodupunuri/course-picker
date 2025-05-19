@@ -178,12 +178,13 @@ export default function CoursePicker() {
           <thead>
             <tr>
               <th>Select</th>
+              <th>ClassNumber</th>
               <th>Title</th>
               <th>Primary Instructor Name</th>
               <th>GPA</th>
               {data.length > 0 && Object.keys(data[0])
                 .filter(k => ![
-                  "", "Unnamed: 0", "Title", "Primary Instructor Name", "GPA",
+                  "", "Unnamed: 0", "Class Number", "Title", "Primary Instructor Name", "GPA",
                   "Instructor2", "Days2", "Room2", "MeetingDates2",
                   "Instructor3", "Days3", "Room3", "MeetingDates3",
                   "Instructor4", "Days4", "Room4", "MeetingDates4",
@@ -209,12 +210,13 @@ export default function CoursePicker() {
                     }
                   }}>Select</button>
                 </td>
+                <td>{row["ClassNumber"] || "N/A"}</td>
                 <td>{row["Title"] || "N/A"}</td>
                 <td>{row["Primary Instructor Name"] || "N/A"}</td>
                 <td>{row["GPA"] || "N/A"}</td>
                 {Object.keys(row)
                   .filter(k => ![
-                    "", "Unnamed: 0", "Title", "Primary Instructor Name", "GPA",
+                    "", "Unnamed: 0", "ClassNumber", "Title", "Primary Instructor Name", "GPA",
                     "Instructor2", "Days2", "Room2", "MeetingDates2",
                     "Instructor3", "Days3", "Room3", "MeetingDates3",
                     "Instructor4", "Days4", "Room4", "MeetingDates4",
