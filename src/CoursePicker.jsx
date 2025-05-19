@@ -178,13 +178,13 @@ export default function CoursePicker() {
           <thead>
             <tr>
               <th>Select</th>
-              <th>ClassNumber</th>
+              <th>Class Number</th>
               <th>Title</th>
               <th>Primary Instructor Name</th>
               <th>GPA</th>
               {data.length > 0 && Object.keys(data[0])
                 .filter(k => ![
-                  "", "Unnamed: 0", "Class Number", "Title", "Primary Instructor Name", "GPA",
+                  "", "Unnamed: 0", "ClassNumber", "Title", "Primary Instructor Name", "GPA",
                   "Instructor2", "Days2", "Room2", "MeetingDates2",
                   "Instructor3", "Days3", "Room3", "MeetingDates3",
                   "Instructor4", "Days4", "Room4", "MeetingDates4",
