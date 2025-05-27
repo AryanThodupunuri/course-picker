@@ -8,15 +8,17 @@
 </p>
 
 # UVA CS Course Planner
-This is a React-based web app designed to help University of Virginia (UVA) Computer Science students explore, filter, and plan their courses each semester. The tool offers rich filtering options, conflict detection, and visual cues to help students build a better schedule.
+A course planning tool built with React to help UVA Computer Science students effortlessly search, filter, and plan their semester schedules. The tool offers rich filtering options, conflict detection, and visual cues to help students build a better schedule.
 
 👉 **Live App:** [course-picker.vercel.app](https://course-picker.vercel.app)
 
 
 ## Features
 ### Filtering Courses
-- **By subject, professor, type, GPA, and credits**
-  - These are handled using React’s (`useState`) for each filter field. As the user types or selects options, the app updates the filtered list in real time by applying conditions to the `filteredData` array.
+- **You can filter courses by multiple criteria**
+  - Subject, Professor, Type, GPA, Credits – Managed with useState; updates in real time.
+  - Meeting Days & Time Range – Includes weekday checkboxes and a time slider.
+  - Keyword Search – Matches in course title and description (case-insensitive).
 
 - **By meeting days and time range**
   - There are checkboxes for each weekday (like Mo/We/Fr) and sliders for setting the time window. I wrote a `parseStartTime()` function that uses regex to extract time info (like “10:00am”) and convert it into a number using 24-hour format. This lets us filter courses based on when they start.
@@ -67,7 +69,9 @@ This is a React-based web app designed to help University of Virginia (UVA) Comp
 # Dataset Info
 - **Spring 2025 Course Data** – Pulled from SIS or public course listings
 - **Historical GPA Data** – Merged using Subject, Catalog Number, and Instructor
-- Final dataset lives in public/courses.json
+- The merged dataset is stored in public/courses.json and includes:
+    - Spring 2025 schedule data from UVA SIS
+    - Historical GPA data joined using course subject, catalog number, and instructor name
 
 # How to Run Locally
 **1. Clone the repo**
