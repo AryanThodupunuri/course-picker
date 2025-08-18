@@ -712,6 +712,14 @@ function App() {
           <p style={{fontSize: '0.75rem', marginTop: '0.5rem'}}>Data updated for Spring 2025 • Not affiliated with UVA SIS</p>
         </div>
       </footer>
+
+      {/* Calendar Modal */}
+      {showCalendar && (
+        <CalendarView
+          selectedCourses={selectedCourses}
+          onClose={() => setShowCalendar(false)}
+        />
+      )}
     </div>
   );
 }
