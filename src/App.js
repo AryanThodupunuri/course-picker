@@ -14,6 +14,7 @@ function App() {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [darkMode, setDarkMode] = useState(false);
+  const [showCalendar, setShowCalendar] = useState(false);
   
   // Filter state
   const [filters, setFilters] = useState({
