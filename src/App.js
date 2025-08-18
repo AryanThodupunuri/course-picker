@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useMemo, useCallback } from "react";
+import CalendarView from "./components/CalendarView";
 import { 
   checkConflicts, 
   calculateTotalCredits, 
