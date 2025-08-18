@@ -1,12 +1,11 @@
 import React, { useMemo } from 'react';
 import { Calendar, momentLocalizer } from 'react-big-calendar';
 import moment from 'moment';
-import { XMarkIcon, CalendarIcon } from '@heroicons/react/24/outline';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 
 const localizer = momentLocalizer(moment);
 
-const CalendarView = ({ selectedCourses, onClose, conflictingCourses = [] }) => {
+const CalendarView = ({ selectedCourses, onClose }) => {
   // Parse course schedule into calendar events
   const events = useMemo(() => {
     const calendarEvents = [];
@@ -58,108 +57,125 @@ const CalendarView = ({ selectedCourses, onClose, conflictingCourses = [] }) => 
         const endDate = new Date(eventDate);
         endDate.setHours(endTime24, parseInt(endMin), 0, 0);
         
-        // Check if this course conflicts with others
-        const isConflicting = conflictingCourses.some(conflictId => 
-          conflictId === course.ClassNumber
-        );
-        
         calendarEvents.push({
           id: `${course.ClassNumber}-${dayNum}`,
-          title: `${course.Subject} ${course["Catalog Number"]}\n${course["Primary Instructor Name"] || 'TBD'}`,
+          title: `${course.Subject} ${course["Catalog Number"]}`,
           start: startDate,
           end: endDate,
           resource: {
             course: course,
-            isConflicting: isConflicting,
-            room: course.Room1
+            instructor: course["Primary Instructor Name"] || 'TBD',
+            room: course.Room1,
+            gpa: course.GPA
           }
         });
       });
     });
     
     return calendarEvents;
-  }, [selectedCourses, conflictingCourses]);
+  }, [selectedCourses]);
 
-  // Custom event component
+  // Custom event component with course info
   const EventComponent = ({ event }) => (
-    <div className={`p-1 rounded text-xs font-medium ${
-      event.resource.isConflicting 
-        ? 'bg-red-500 text-white' 
-        : 'bg-blue-500 text-white'
-    }`}>
-      <div className="font-semibold truncate">
-        {event.title.split('\n')[0]}
+    <div style={{ fontSize: '12px', lineHeight: '1.2' }}>
+      <div style={{ fontWeight: 'bold' }}>
+        {event.title}
       </div>
-      <div className="text-xs opacity-90 truncate">
-        {event.title.split('\n')[1]}
+      <div style={{ opacity: 0.9 }}>
+        {event.resource.instructor}
       </div>
       {event.resource.room && (
-        <div className="text-xs opacity-75 truncate">
+        <div style={{ opacity: 0.8 }}>
           📍 {event.resource.room}
         </div>
       )}
     </div>
   );
 
-  // Custom event style getter
+  // Custom event style getter based on GPA
   const eventStyleGetter = (event) => {
-    const style = {
-      backgroundColor: event.resource.isConflicting ? '#ef4444' : '#3b82f6',
-      borderRadius: '4px',
-      border: 'none',
-      color: 'white',
-      display: 'block',
-      fontSize: '12px',
-      padding: '2px 4px'
+    const gpa = parseFloat(event.resource.gpa);
+    let backgroundColor = '#3b82f6'; // Default blue
+    
+    if (!isNaN(gpa)) {
+      if (gpa >= 3.7) backgroundColor = '#10b981'; // Green for high GPA
+      else if (gpa >= 3.0) backgroundColor = '#f59e0b'; // Yellow for medium GPA  
+      else backgroundColor = '#ef4444'; // Red for low GPA
+    }
+    
+    return {
+      style: {
+        backgroundColor,
+        borderRadius: '4px',
+        border: 'none',
+        color: 'white',
+        fontSize: '11px'
+      }
     };
-    return { style };
   };
 
   return (
-    <div className="fixed inset-0 z-50 overflow-y-auto bg-black bg-opacity-50 flex items-center justify-center p-4">
-      <div className="bg-white dark:bg-gray-800 rounded-lg shadow-xl w-full max-w-6xl max-h-[90vh] overflow-hidden">
+    <div className="modal-overlay" onClick={onClose}>
+      <div className="modal" onClick={(e) => e.stopPropagation()}>
         {/* Header */}
-        <div className="px-6 py-4 border-b border-gray-200 dark:border-gray-700 flex items-center justify-between">
-          <div className="flex items-center space-x-3">
-            <CalendarIcon className="h-6 w-6 text-uva-orange" />
-            <h2 className="text-xl font-semibold text-gray-900 dark:text-white">
-              Weekly Schedule
+        <div style={{ 
+          padding: '1.5rem', 
+          borderBottom: '1px solid #e5e7eb',
+          background: '#f9fafb',
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center'
+        }}>
+          <div>
+            <h2 style={{ margin: 0, fontSize: '1.5rem', fontWeight: '600', color: 'var(--uva-navy)' }}>
+              📅 Weekly Schedule
             </h2>
-            <span className="text-sm text-gray-500 dark:text-gray-400">
+            <p style={{ margin: '0.25rem 0 0 0', fontSize: '0.875rem', color: '#6b7280' }}>
               {selectedCourses.length} courses selected
-            </span>
+            </p>
           </div>
           
           <button
             onClick={onClose}
-            className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors"
+            style={{
+              padding: '0.5rem',
+              background: '#f3f4f6',
+              border: '1px solid #d1d5db',
+              borderRadius: '0.5rem',
+              cursor: 'pointer',
+              fontSize: '1.25rem'
+            }}
+            title="Close Calendar"
           >
-            <XMarkIcon className="h-5 w-5 text-gray-500" />
+            ✖️
           </button>
         </div>
 
         {/* Calendar Content */}
-        <div className="p-6 overflow-auto" style={{ height: 'calc(90vh - 120px)' }}>
+        <div style={{ padding: '1.5rem', height: '70vh', minHeight: '500px' }}>
           {events.length === 0 ? (
-            <div className="flex items-center justify-center h-64">
-              <div className="text-center">
-                <CalendarIcon className="h-12 w-12 mx-auto text-gray-400 dark:text-gray-500 mb-4" />
-                <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-2">
-                  No Schedule to Display
-                </h3>
-                <p className="text-gray-500 dark:text-gray-400">
-                  Select courses with valid schedules to see your weekly calendar.
-                </p>
-              </div>
+            <div style={{ 
+              display: 'flex', 
+              alignItems: 'center', 
+              justifyContent: 'center', 
+              height: '100%',
+              flexDirection: 'column',
+              color: '#6b7280'
+            }}>
+              <div style={{ fontSize: '4rem', marginBottom: '1rem' }}>📅</div>
+              <h3 style={{ margin: '0 0 0.5rem 0', fontSize: '1.25rem', fontWeight: '600' }}>
+                No Schedule to Display
+              </h3>
+              <p>Select courses with valid schedules to see your weekly calendar.</p>
             </div>
           ) : (
-            <div className="h-full">
+            <div style={{ height: '100%' }}>
               <Calendar
                 localizer={localizer}
                 events={events}
                 startAccessor="start"
                 endAccessor="end"
-                style={{ height: '100%', minHeight: '500px' }}
+                style={{ height: '100%' }}
                 defaultView="work_week"
                 views={['work_week', 'day']}
                 min={new Date(2024, 0, 1, 7, 0, 0)} // 7 AM
@@ -171,41 +187,62 @@ const CalendarView = ({ selectedCourses, onClose, conflictingCourses = [] }) => 
                 }}
                 eventPropGetter={eventStyleGetter}
                 dayLayoutAlgorithm="no-overlap"
-                className="rbc-calendar"
               />
             </div>
           )}
 
           {/* Legend */}
           {events.length > 0 && (
-            <div className="mt-4 flex flex-wrap gap-4 text-sm">
-              <div className="flex items-center space-x-2">
-                <div className="w-4 h-4 bg-blue-500 rounded"></div>
-                <span className="text-gray-600 dark:text-gray-300">Regular Course</span>
-              </div>
-              {conflictingCourses.length > 0 && (
-                <div className="flex items-center space-x-2">
-                  <div className="w-4 h-4 bg-red-500 rounded"></div>
-                  <span className="text-gray-600 dark:text-gray-300">Time Conflict</span>
+            <div style={{ 
+              marginTop: '1rem', 
+              padding: '1rem',
+              background: '#f9fafb',
+              borderRadius: '0.5rem',
+              border: '1px solid #e5e7eb'
+            }}>
+              <h4 style={{ margin: '0 0 0.75rem 0', fontSize: '0.875rem', fontWeight: '600' }}>
+                GPA Color Legend:
+              </h4>
+              <div style={{ display: 'flex', gap: '1.5rem', flexWrap: 'wrap', fontSize: '0.75rem' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                  <div style={{ width: '16px', height: '16px', background: '#10b981', borderRadius: '4px' }}></div>
+                  <span>High GPA (≥3.7)</span>
                 </div>
-              )}
+                <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                  <div style={{ width: '16px', height: '16px', background: '#f59e0b', borderRadius: '4px' }}></div>
+                  <span>Medium GPA (3.0-3.7)</span>
+                </div>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                  <div style={{ width: '16px', height: '16px', background: '#ef4444', borderRadius: '4px' }}></div>
+                  <span>Low GPA (&lt;3.0)</span>
+                </div>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                  <div style={{ width: '16px', height: '16px', background: '#3b82f6', borderRadius: '4px' }}></div>
+                  <span>No GPA Data</span>
+                </div>
+              </div>
             </div>
           )}
         </div>
 
         {/* Footer */}
-        <div className="px-6 py-4 border-t border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-700">
-          <div className="flex items-center justify-between text-sm">
-            <div className="text-gray-600 dark:text-gray-300">
-              Showing schedule for current week • Times in your local timezone
-            </div>
-            <button
-              onClick={onClose}
-              className="px-4 py-2 bg-uva-orange hover:bg-orange-600 text-white rounded-lg font-medium transition-colors"
-            >
-              Close Calendar
-            </button>
+        <div style={{ 
+          padding: '1rem 1.5rem', 
+          borderTop: '1px solid #e5e7eb',
+          background: '#f9fafb',
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center'
+        }}>
+          <div style={{ fontSize: '0.75rem', color: '#6b7280' }}>
+            Showing schedule for current week • Times in your local timezone
           </div>
+          <button
+            onClick={onClose}
+            className="btn btn-primary"
+          >
+            Close Calendar
+          </button>
         </div>
       </div>
     </div>
