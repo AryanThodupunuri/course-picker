@@ -674,6 +674,9 @@ function App() {
                     <button className="btn btn-secondary" onClick={handleExportSchedule}>
                       📄 Export Schedule
                     </button>
+                    <button className="btn btn-secondary" onClick={() => setShowCalendar(true)}>
+                      📅 View Calendar
+                    </button>
                   </div>
                 </>
               )}
