@@ -668,7 +668,7 @@ function App() {
           <div className="card">
             <div className="card-header">
               <h3 style={{margin: 0, fontSize: '1.125rem', fontWeight: 600}}>
-                📚 Selected Courses
+                Selected Courses
               </h3>
               <p style={{margin: '0.25rem 0 0 0', fontSize: '0.875rem', opacity: 0.7}}>
                 {selectedCourses.length} courses • {totalCredits} credits
