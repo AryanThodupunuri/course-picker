@@ -634,7 +634,7 @@ function App() {
                             <div>
                               <div style={{fontSize: '0.875rem'}}>{course.Days1}</div>
                               {course.Room1 && (
-                                <div style={{fontSize: '0.75rem', opacity: 0.7}}>📍 {course.Room1}</div>
+                                <div style={{fontSize: '0.75rem', opacity: 0.7}}>{course.Room1}</div>
                               )}
                             </div>
                           )}
