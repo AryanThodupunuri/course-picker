@@ -216,6 +216,18 @@ function App() {
     setConflictWarning("");
   }, []);
 
+  // Handle user login
+  const handleLogin = useCallback((userData) => {
+    setUser(userData);
+  }, []);
+
+  // Handle user logout
+  const handleLogout = useCallback(() => {
+    localStorage.removeItem('courseplanner_currentuser');
+    setUser(null);
+    setSelectedCourses([]);
+  }, []);
+
   // Calculate total credits
   const totalCredits = useMemo(() => {
     return calculateTotalCredits(selectedCourses);
