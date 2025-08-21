@@ -400,7 +400,7 @@ function App() {
             <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
               <div>
                 <h2 style={{margin: 0, fontSize: '1.125rem', fontWeight: 600}}>
-                  🔍 Filters
+                  Filters
                 </h2>
                 <p style={{margin: '0.25rem 0 0 0', fontSize: '0.875rem', opacity: 0.7}}>
                   {filteredData.length} of {data.length} courses
