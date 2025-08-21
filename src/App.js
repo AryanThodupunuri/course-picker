@@ -677,7 +677,6 @@ function App() {
             <div className="card-body">
               {selectedCourses.length === 0 ? (
                 <div style={{textAlign: 'center', padding: '2rem'}}>
-                  <div style={{fontSize: '2rem', marginBottom: '1rem'}}>No Courses Selected</div>
                   <h4 style={{margin: '0 0 0.5rem 0'}}>No Courses Selected</h4>
                   <p style={{fontSize: '0.875rem', opacity: 0.7}}>
                     Select courses from the table to build your schedule.
