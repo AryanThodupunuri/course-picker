@@ -504,7 +504,7 @@ function App() {
               </div>
 
               <div style={{marginTop: '1.5rem'}}>
-                <label className="form-label">📅 Meeting Days</label>
+                <label className="form-label">Meeting Days</label>
                 <div className="day-checkboxes">
                   {['Mo', 'Tu', 'We', 'Th', 'Fr'].map((day) => (
                     <button
