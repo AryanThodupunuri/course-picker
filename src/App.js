@@ -653,7 +653,7 @@ function App() {
                             disabled={selectedCourses.some(selected => selected.ClassNumber === course.ClassNumber)}
                             style={{fontSize: '0.75rem', padding: '0.25rem 0.5rem'}}
                           >
-                            {selectedCourses.some(selected => selected.ClassNumber === course.ClassNumber) ? 'Selected' : '+ Select'}
+                            {selectedCourses.some(selected => selected.ClassNumber === course.ClassNumber) ? 'Selected' : 'Select'}
                           </button>
                         </td>
                       </tr>
