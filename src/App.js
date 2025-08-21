@@ -428,7 +428,7 @@ function App() {
             <div className="card-body animate-fade-in">
               <div className="filter-grid">
                 <div className="form-group">
-                  <label className="form-label">🔍 Search</label>
+                  <label className="form-label">Search</label>
                   <input
                     type="text"
                     className="form-input"
