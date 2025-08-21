@@ -147,7 +147,7 @@ const CalendarView = ({ selectedCourses, onClose }) => {
             }}
             title="Close Calendar"
           >
-            ✖️
+            ✖
           </button>
         </div>
 
