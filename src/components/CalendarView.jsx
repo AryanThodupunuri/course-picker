@@ -128,7 +128,7 @@ const CalendarView = ({ selectedCourses, onClose }) => {
         }}>
           <div>
             <h2 style={{ margin: 0, fontSize: '1.5rem', fontWeight: '600', color: 'var(--uva-navy)' }}>
-              📅 Weekly Schedule
+              Weekly Schedule
             </h2>
             <p style={{ margin: '0.25rem 0 0 0', fontSize: '0.875rem', color: '#6b7280' }}>
               {selectedCourses.length} courses selected
