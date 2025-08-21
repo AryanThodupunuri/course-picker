@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useMemo, useCallback } from "react";
 import CalendarView from "./components/CalendarView";
+import LoginForm from "./components/LoginForm";
 import { 
   checkConflicts, 
   calculateTotalCredits, 
@@ -10,6 +11,10 @@ import {
 } from "./utils/scheduleUtils";
 
 function App() {
+  // Authentication state
+  const [user, setUser] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
+
   // State management
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
