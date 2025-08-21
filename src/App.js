@@ -345,18 +345,30 @@ function App() {
         <div className="container">
           <div className="header-content">
             <div>
-              <h1>🎓 UVA CS Course Planner</h1>
+              <h1>UVA CS Course Planner</h1>
               <p style={{fontSize: '0.875rem', margin: '0.25rem 0 0 0', opacity: 0.8}}>
                 Build your perfect semester schedule
               </p>
             </div>
-            <button 
-              className="btn btn-secondary"
-              onClick={() => setDarkMode(!darkMode)}
-              title="Toggle dark mode"
-            >
-              {darkMode ? '☀️' : '🌙'}
-            </button>
+            <div style={{display: 'flex', alignItems: 'center', gap: '1rem'}}>
+              <span style={{fontSize: '0.875rem', opacity: 0.8}}>
+                Welcome, {user.name}
+              </span>
+              <button 
+                className="btn btn-secondary"
+                onClick={() => setDarkMode(!darkMode)}
+                title="Toggle dark mode"
+              >
+                {darkMode ? 'Light' : 'Dark'}
+              </button>
+              <button 
+                className="btn btn-secondary"
+                onClick={handleLogout}
+                title="Sign out"
+              >
+                Sign Out
+              </button>
+            </div>
           </div>
         </div>
       </header>
