@@ -772,8 +772,7 @@ function App() {
 
       <footer style={{background: 'white', borderTop: '1px solid #e5e7eb', padding: '2rem 0', marginTop: '3rem', textAlign: 'center', fontSize: '0.875rem', color: '#6b7280'}}>
         <div className="container">
-          <p>Created by Aryan Thodupunuri and Nikhil Kapadia • Enhanced with modern UI/UX and advanced features</p>
-          <p style={{fontSize: '0.75rem', marginTop: '0.5rem'}}>Data updated for Spring 2025 • Not affiliated with UVA SIS</p>
+          <p>by Aryan Thodupunuri</p>
         </div>
       </footer>
 
