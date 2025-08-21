@@ -733,13 +733,13 @@ function App() {
 
                   <div style={{display: 'flex', flexDirection: 'column', gap: '0.5rem', marginTop: '1rem'}}>
                     <button className="btn btn-primary" onClick={handleSaveSchedule}>
-                      💾 Save Schedule
+                      Save Schedule
                     </button>
                     <button className="btn btn-secondary" onClick={handleExportSchedule}>
-                      📄 Export Schedule
+                      Export Schedule
                     </button>
                     <button className="btn btn-secondary" onClick={() => setShowCalendar(true)}>
-                      📅 View Calendar
+                      View Calendar
                     </button>
                   </div>
                 </>
