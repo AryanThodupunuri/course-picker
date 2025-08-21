@@ -608,8 +608,7 @@ function App() {
                     <tr>
                       <td colSpan="8" style={{textAlign: 'center', padding: '2rem'}}>
                         <div>
-                          <p>🎓</p>
-                          <p style={{marginTop: '0.5rem'}}>No courses match your filters.</p>
+                          <p>No courses match your filters.</p>
                         </div>
                       </td>
                     </tr>
