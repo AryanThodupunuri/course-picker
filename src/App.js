@@ -692,8 +692,8 @@ function App() {
                           <div className="selected-course-meta">
                             <div>{course.Subject} {course["Catalog Number"]} - Section {course.Section}</div>
                             <div>{course["Primary Instructor Name"] || "TBD"}</div>
-                            {course.Days1 && <div>🕐 {course.Days1}</div>}
-                            {course.Room1 && <div>📍 {course.Room1}</div>}
+                            {course.Days1 && <div>{course.Days1}</div>}
+                            {course.Room1 && <div>{course.Room1}</div>}
                           </div>
                         </div>
                         <div style={{display: 'flex', alignItems: 'center', gap: '0.5rem'}}>
