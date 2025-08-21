@@ -86,7 +86,7 @@ const CalendarView = ({ selectedCourses, onClose }) => {
       </div>
       {event.resource.room && (
         <div style={{ opacity: 0.8 }}>
-          📍 {event.resource.room}
+          {event.resource.room}
         </div>
       )}
     </div>
