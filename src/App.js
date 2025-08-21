@@ -309,6 +309,24 @@ function App() {
     });
   }, [filteredData, filters.sortKey, filters.sortOrder]);
 
+  // Show loading spinner during initial auth check
+  if (isLoading) {
+    return (
+      <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '100vh'}}>
+        <div>
+          <div className="spinner"></div>
+          <p style={{textAlign: 'center', marginTop: '1rem'}}>Loading...</p>
+        </div>
+      </div>
+    );
+  }
+
+  // Show login form if not authenticated
+  if (!user) {
+    return <LoginForm onLogin={handleLogin} />;
+  }
+
+  // Show course data loading
   if (loading) {
     return (
       <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '100vh'}}>
