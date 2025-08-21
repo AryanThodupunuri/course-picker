@@ -520,7 +520,7 @@ function App() {
 
               <div className="time-range">
                 <label className="form-label">
-                  🕐 Time Range: {filters.startTimeRange[0]}:00 - {filters.startTimeRange[1]}:00
+                  Time Range: {filters.startTimeRange[0]}:00 - {filters.startTimeRange[1]}:00
                 </label>
                 <div className="range-inputs">
                   <div className="range-input">
