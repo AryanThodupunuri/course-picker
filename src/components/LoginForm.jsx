@@ -18,6 +18,20 @@ const LoginForm = ({ onLogin }) => {
       return;
     }
 
+    // Initialize demo user if not exists
+    const initializeDemoUser = () => {
+      const users = JSON.parse(localStorage.getItem('courseplanners_users') || '[]');
+      if (!users.find(user => user.email === 'demo@uva.edu')) {
+        users.push({
+          email: 'demo@uva.edu',
+          password: 'demo123',
+          name: 'Demo User',
+          createdAt: new Date().toISOString()
+        });
+        localStorage.setItem('courseplanners_users', JSON.stringify(users));
+      }
+    };
+
     if (isRegistering) {
       // Store user credentials in localStorage (simple demo)
       const users = JSON.parse(localStorage.getItem('courseplanners_users') || '[]');
@@ -43,6 +57,9 @@ const LoginForm = ({ onLogin }) => {
       localStorage.setItem('courseplanner_currentuser', JSON.stringify(user));
       onLogin(user);
     } else {
+      // Initialize demo user first
+      initializeDemoUser();
+      
       // Login existing user
       const users = JSON.parse(localStorage.getItem('courseplanners_users') || '[]');
       const user = users.find(u => u.email === credentials.email && u.password === credentials.password);
