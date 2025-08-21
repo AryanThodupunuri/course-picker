@@ -162,7 +162,7 @@ const CalendarView = ({ selectedCourses, onClose }) => {
               flexDirection: 'column',
               color: '#6b7280'
             }}>
-              <div style={{ fontSize: '4rem', marginBottom: '1rem' }}>📅</div>
+              <div style={{ fontSize: '4rem', marginBottom: '1rem' }}>No Schedule</div>
               <h3 style={{ margin: '0 0 0.5rem 0', fontSize: '1.25rem', fontWeight: '600' }}>
                 No Schedule to Display
               </h3>
