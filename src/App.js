@@ -42,6 +42,25 @@ function App() {
   const [selectedCourses, setSelectedCourses] = useState([]);
   const [conflictWarning, setConflictWarning] = useState("");
 
+  // Check for existing user session
+  useEffect(() => {
+    const checkAuthStatus = () => {
+      try {
+        const savedUser = localStorage.getItem('courseplanner_currentuser');
+        if (savedUser) {
+          const userData = JSON.parse(savedUser);
+          setUser(userData);
+        }
+      } catch (error) {
+        console.error('Error checking auth status:', error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    checkAuthStatus();
+  }, []);
+
   // Initialize dark mode from localStorage
   useEffect(() => {
     const savedDarkMode = localStorage.getItem('darkMode') === 'true';
